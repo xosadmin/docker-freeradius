@@ -20,6 +20,7 @@ docker run -d --name freeradius \
 #### Note:  
 - TLS is disabled by default in this image.
 - The `--network host` option is required if you wish to control client access.
+- If you have existing DB structure in database, you can use ``-e DO_NOT_IMPORT_DB=true`` to skip DB structure initialization
 - A default client named `defaultNAS` is created during the first startup. You can modify it in `/etc/freeradius/3.0/clients.conf`.
 - You can also use `-v /path/to/clients.conf:/etc/freeradius/3.0/clients.conf` to apply your own client configuration.
 
