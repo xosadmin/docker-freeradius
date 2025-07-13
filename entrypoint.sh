@@ -12,10 +12,12 @@ echo "Start initialize Freeradius..."
 if [[ ! -f "/etc/freeradius/3.0/init.lock" ]]; then
     cd /etc/freeradius/3.0 || { echo "Failed to cd /etc/freeradius/3.0"; exit 1; }
 
-    echo "Importing default DB structure..."
-    if ! mysql -h"$MYSQL_SERVER" -P"$MYSQL_PORT" -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DBNAME" < mods-config/sql/main/mysql/schema.sql; then
-        echo "Failed to import DB structure, perhaps database connection information issue. Exiting..." >&2
-        exit 1
+    if [[ -z "$DO_NOT_IMPORT_DB" ]]; then
+        echo "Importing default DB structure..."
+        if ! mysql -h"$MYSQL_SERVER" -P"$MYSQL_PORT" -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DBNAME" < mods-config/sql/main/mysql/schema.sql; then
+            echo "Failed to import DB structure, perhaps database connection information issue. Exiting..." >&2
+            exit 1
+        fi
     fi
 
     echo "Updating freeradius..."
