@@ -12,6 +12,7 @@ docker run -d --name freeradius \
   -e MYSQL_USER=<user> \
   -e MYSQL_PASSWORD=<password> \
   -e MYSQL_DBNAME=<database_name> \
+  -p 1812:1812/udp -p 1813:1813/udp \
   xosadmin/docker-freeradius
 ```
   
