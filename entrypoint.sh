@@ -22,8 +22,8 @@ if [[ ! -f "/etc/freeradius/3.0/init.lock" ]]; then
 
     sed -Ei 's/#[\t ]*sql/sql/g' sites-enabled/default
 
-    sed -i "s/^\([[:space:]]*dialect = \"\)sqlite\"/\1mysql\"/" \
-        -e "s/^\([[:space:]]*driver = \"\)rlm_sql_[^\"]*\"/\1rlm_sql_${dialect}\"/" \
+    sed -Ei -e "s/dialect = \"sqlite\"/dialect = \"mysql\"/" \
+        -e "s/driver = \"rlm_sql_[^\"]*\"/driver = \"rlm_sql_${dialect}\"/" \
         -e "s/^[[:space:]]*#\{0,1\}[[:space:]]*server = .*/        server = \"$MYSQL_SERVER\"/" \
         -e "s/^[[:space:]]*#\{0,1\}[[:space:]]*port = .*/        port = $MYSQL_PORT/" \
         -e "s/^[[:space:]]*#\{0,1\}[[:space:]]*login = .*/        login = \"$MYSQL_USER\"/" \
