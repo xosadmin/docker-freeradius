@@ -22,15 +22,26 @@ if [[ ! -f "/etc/freeradius/3.0/init.lock" ]]; then
 
     sed -Ei 's/#[\t ]*sql/sql/g' sites-enabled/default
 
+sed -i '/^[[:space:]]*#\?[[:space:]]*password = "radpass"/r /dev/stdin' mods-enabled/sql <<EOF 
+        server = "$MYSQL_SERVER"
+        port = $MYSQL_PORT
+        login = "$MYSQL_USER"
+        password = "$MYSQL_PASSWORD"
+EOF
+
     sed -Ei -e "s/dialect = \"sqlite\"/dialect = \"mysql\"/" \
         -e "s/driver = \"rlm_sql_[^\"]*\"/driver = \"rlm_sql_${dialect}\"/" \
-        -e "s/^[[:space:]]*#\{0,1\}[[:space:]]*server = .*/        server = \"$MYSQL_SERVER\"/" \
-        -e "s/^[[:space:]]*#\{0,1\}[[:space:]]*port = .*/        port = $MYSQL_PORT/" \
-        -e "s/^[[:space:]]*#\{0,1\}[[:space:]]*login = .*/        login = \"$MYSQL_USER\"/" \
-        -e "s/^[[:space:]]*#\{0,1\}[[:space:]]*password = .*/        password = \"$MYSQL_PASSWORD\"/" \
         -e "s/radius_db = \"radius\"/radius_db = \"$MYSQL_DBNAME\"/g" \
         -e 's/^[[:space:]]*#[[:space:]]*read_clients = yes/        read_clients = yes/' \
-        -e 's/^[[:space:]]*#[[:space:]]*client_table = "nas"/        client_table = "nas"/' mods-available/sql
+        -e 's/^[[:space:]]*#[[:space:]]*client_table = "nas"/        client_table = "nas"/' mods-enabled/sql
+
+cat>>clients.conf<<EOF
+
+client defaultNAS {
+    ipaddr = 0.0.0.0
+    secret = $SECRET
+}
+EOF
 
     touch /etc/freeradius/3.0/init.lock
 else
