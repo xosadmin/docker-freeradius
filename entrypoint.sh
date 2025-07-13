@@ -20,7 +20,7 @@ if [[ ! -f "/etc/freeradius/3.0/init.lock" ]]; then
 
     echo "Updating freeradius..."
 
-    sed -Ei 's/#[\t ]*sql/sql/g' sites-enabled/default
+    sed -Ei 's/#[\t ]*sql$/sql/g' sites-enabled/default
 
 sed -i '/^[[:space:]]*#\?[[:space:]]*password = "radpass"/r /dev/stdin' mods-enabled/sql <<EOF 
         server = "$MYSQL_SERVER"
