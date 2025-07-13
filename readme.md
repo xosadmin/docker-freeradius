@@ -19,7 +19,7 @@ docker run -d --name freeradius \
   
 #### Note:  
 - TLS is disabled by default in this image.
-- The `--network host` option is required if you wish to control NAS access.
+- The `--network host` option is required if you wish to control client access.
 - A default client named `defaultNAS` is created during the first startup. You can modify it in `/etc/freeradius/3.0/clients.conf`.
 - You can also use `-v /path/to/clients.conf:/etc/freeradius/3.0/clients.conf` to apply your own client configuration.
 
