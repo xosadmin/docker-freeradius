@@ -17,4 +17,4 @@ docker run -d --name freeradius \
 ```
   
 #### Note:  
-- This image disables TLS by default. If you need TLS support, you can compile by your own
+- The Freeradius in this image disables TLS by default.
