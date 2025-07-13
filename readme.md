@@ -12,7 +12,8 @@ docker run -d --name freeradius \
   -e MYSQL_USER=<user> \
   -e MYSQL_PASSWORD=<password> \
   -e MYSQL_DBNAME=<database_name> \
-  xosadmin/docker-freeradius```
+  xosadmin/docker-freeradius
+```
   
 #### Note:  
 - This image disables TLS by default. If you need TLS support, you can compile by your own
